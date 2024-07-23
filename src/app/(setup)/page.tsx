@@ -4,6 +4,7 @@ import React from "react";
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/db";
 import { Profile } from "@prisma/client";
+import InitialModel from "@/components/modals/initial-model";
 
 const page = async () => {
   const profile = await initialProfile();
@@ -20,7 +21,7 @@ const page = async () => {
     return redirect(`/servers/${server.id}`);
   }
 
-  return <div>Create a Server </div>;
+  return <InitialModel />;
 };
 
 export default page;
