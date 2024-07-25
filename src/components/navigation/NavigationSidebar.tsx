@@ -8,6 +8,7 @@ import { Separator } from "../ui/separator";
 import NavigationItem from "./NavigationItem";
 import { ModeToggle } from "../mode-toggle";
 import { UserButton } from "@clerk/nextjs";
+import CreateServerModal from "../modals/create-server-modal";
 
 const NavigationSidebar = async () => {
   const profile = await currentProfile();
@@ -42,12 +43,12 @@ const NavigationSidebar = async () => {
       </ScrollArea>
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
-        <UserButton 
+        <UserButton
           afterSignOutUrl="/"
           appearance={{
             elements: {
-              avatarBox: 'h-[48px] w-[48px]'
-            }
+              avatarBox: "h-[48px] w-[48px]",
+            },
           }}
         />
       </div>

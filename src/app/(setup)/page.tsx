@@ -4,7 +4,7 @@ import React from "react";
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/db";
 import { Profile } from "@prisma/client";
-import InitialModel from "@/components/modals/initial-model";
+import InitialModel from "@/components/modals/initial-modal";
 
 const page = async () => {
   const profile = await initialProfile();
