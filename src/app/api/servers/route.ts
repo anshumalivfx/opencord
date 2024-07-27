@@ -53,3 +53,70 @@ export const POST = async (req: Request) => {
     );
   }
 };
+
+export async function PATCH(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const queryParam = {
+      serverid: searchParams.get("serverid"),
+    };
+    const profile = await currentProfile();
+    const { name, imageUrl } = await req.json();
+
+    if (!profile)
+      return Response.json(
+        {
+          message: "Unauthorized",
+        },
+        {
+          status: 401,
+        }
+      );
+
+    const server = await db.server.findUnique({
+      where: {
+        id: queryParam.serverid as string,
+        profileId: profile.id,
+      },
+    });
+    if (!server)
+      return Response.json(
+        {
+          message: ("Server not found" + queryParam.serverid) as string,
+        },
+        {
+          status: 404,
+        }
+      );
+
+    const updateServer = await db.server.update({
+      where: {
+        id: server.id,
+        profileId: profile.id,
+      },
+      data: {
+        name,
+        imageUrl,
+      },
+    });
+
+    return Response.json(
+      {
+        ...updateServer,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return Response.json(
+      {
+        message: "Internal Error",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

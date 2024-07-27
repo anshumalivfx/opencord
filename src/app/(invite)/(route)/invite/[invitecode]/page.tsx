@@ -1,6 +1,6 @@
 import { currentProfile } from "@/lib/currentProfile";
 import { db } from "@/lib/db";
-import {  redirectToSignIn } from "@clerk/nextjs/server";
+import { redirectToSignIn } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -29,18 +29,22 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
   if (existingServer) return redirect(`/servers/${existingServer.id}`);
 
   const server = await db.server.update({
-      where: {
-        inviteCode: params.invitecode,
-      },
-      data: {
-        members: {
-          create: {
-            profileId: profile.id,
-          },
+    where: {
+      inviteCode: params.invitecode,
+    },
+    data: {
+      members: {
+        create: {
+          profileId: profile.id,
+          userId: profile.userId,
         },
       },
-    });
-  return <div>InviteCodePage</div>;
+    },
+  });
+
+  if (server) return redirect(`/servers/${server.id}`);
+
+  return null;
 };
 
 export default InviteCodePage;
