@@ -70,6 +70,28 @@ const MembersModal = () => {
 
   // const router = useRouter();
 
+  const onKick = async (memberId: string) => {
+    try {
+      setLoadingId(memberId);
+
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server.id,
+        },
+      });
+
+      const res = await axios.delete(url);
+
+      router.refresh();
+      onOpen("members", { server: res.data });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
   const onRoleChange = async (memberId: string, role: MemberRole) => {
     try {
       setLoadingId(memberId);
@@ -168,7 +190,10 @@ const MembersModal = () => {
                           </DropdownMenuSub>
 
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => onKick(member.id)}
+                            className="text-rose-500"
+                          >
                             <Gavel className="h-4 w-4 mr-2" />
                             Kick
                           </DropdownMenuItem>
