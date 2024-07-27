@@ -1,9 +1,18 @@
-import React from 'react'
+import React from "react";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { cn } from "@/lib/utils";
 
-const UserAvatar = () => {
-  return (
-    <div>UserAvatar</div>
-  )
+interface UserAvatarProps {
+  src?: string;
+  className?: string;
 }
 
-export default UserAvatar
+const UserAvatar = ({ src, className }: UserAvatarProps) => {
+  return (
+    <Avatar className={cn("h-7 w-7 md:h-10 md:w-10 ml-5", className)}>
+      <AvatarImage src={src} />
+    </Avatar>
+  );
+};
+
+export default UserAvatar;
